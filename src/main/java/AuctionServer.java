@@ -1,4 +1,6 @@
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 public class AuctionServer implements Auction {
     AuctionItem[] items = new AuctionItem[10];
@@ -14,7 +16,13 @@ public class AuctionServer implements Auction {
         return null;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws RemoteException {
+        AuctionServer auction = new AuctionServer();
 
+        Registry registry = LocateRegistry.createRegistry(1099);
+
+        registry.rebind("Auction", auction);
+
+        System.out.println("waiting for clients");
     }
 }
